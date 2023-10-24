@@ -4,7 +4,7 @@
 //cumple la misma funcion practicamente que el buscador por ID nada mas que en este caso lo hacemos por el code. El productFind y el ValidProduct fue
 //usado para validar que el producto cumpla con todos los requisitos del producto en si y el metodo final que es el getProducts lo usamos para devolver
 //el array con todos los productos cargados.
-const fs = require("fs");
+import fs from "fs"
 const { json } = require("stream/consumers");
 
 class ProductManager {
@@ -27,38 +27,29 @@ class ProductManager {
         }
     }
 
-    getProductsFromFiles(){
-        if(this.products.length < 1){
-        fs.writeFileSync(this.path, JSON.stringify(this.products), "utf-8");
-            const data = fs.readFileSync(this.path,'utf-8');
-            return console.log(`Data esta vacio:${JSON.parse(data)}`);
-        } else {
-            try{
-                
-                const data = fs.readFileSync(this.path,'utf-8');
-                const array = JSON.parse(data);
-                console.log("Estos items ya estan cargados en el sistema")
-                
-            for( let i=0; i< array.length;i++){
-                    
-                const currentProduct = array[i]
-                console.log(`Item ${i+1}`)
-                for(const key in currentProduct){
-                console.log(`${key}: ${currentProduct[key]}`)
-                    }
+    getProductsFromFiles() {
+        try {
+            const data = fs.readFileSync(this.path, 'utf-8');
+            const array = JSON.parse(data);
+            console.log("Estos items ya están cargados en el sistema");
+            for (let i = 0; i < array.length; i++) {
+                const currentProduct = array[i];
+                console.log(`Item ${i + 1}`);
+                for (const key in currentProduct) {
+                    console.log(`${key}: ${currentProduct[key]}`);
                 }
-                return array;
-            }catch(error){
-                return 'No puedo ver el archivo'
-            }}
-        
-    }
-
+            }
+            return array;
+        } catch (error) {
+            return 'No puedo ver el archivo';
+        }
+      }
+      
     updateProductById(id,new_product){
         
         const data =fs.readFileSync(this.path,'utf-8');
         const prods =JSON.parse(data);
-        const index =prods.findIndex(x =>{return x.code ===id});
+        const index =prods.findIndex(x =>{return x.code === id});
 
         if(index<0){
             return console.log(`\nNo se ha podido actualizar el id: ${id} \nItem no encontrado\n`)
@@ -128,8 +119,8 @@ class ProductManager {
 
 // Aqui instanciamos la class ProductManager
 const productManager = new ProductManager();
-console.log("--------------Devuelve la lista vacia-------------")
-productManager.getProductsFromFiles();
+// console.log("--------------Devuelve la lista vacia-------------")
+// productManager.getProductsFromFiles();
 
 // La class Product es utilizada para simular unos productos y poder probar que funciona la clase y los metodos de ProductManager, ademas de definir
 //los campos que debe de tener cada producto y poder luego realizar la validacion de los mismos.
@@ -169,7 +160,7 @@ productManager.getProductsFromFiles();
 
 
 console.log("---------------ITEM POR ID----------------")
-productManager.getProductById(3);
+productManager.getProductById(2);
 
 
 // Probamos meter productos en el array products 
